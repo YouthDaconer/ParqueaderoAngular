@@ -1,6 +1,6 @@
 export class CheckBalanceCommand {
 
     constructor(
-        public LicensePlate: string | null
+        public licensePlate: string | null
     ) { }
 }

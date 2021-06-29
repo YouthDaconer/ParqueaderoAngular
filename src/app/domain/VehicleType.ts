@@ -1,13 +1,13 @@
 export class VehicleType {
 
     constructor(
-        public Id: string|undefined,
-        public Name: string,
-        public HourValue: number,
-        public DayValue: number,
-        public BaseHoursPerDay: number,
-        public EngineDisplacementCharge: number,
-        public EngineDisplacementFlagValue: number,
-        public NumPlaces: number
+        public id: string|undefined,
+        public name: string,
+        public hourValue: number,
+        public dayValue: number,
+        public baseHoursPerDay: number,
+        public engineDisplacementCharge: number,
+        public engineDisplacementFlagValue: number,
+        public numPlaces: number
     ) { }
 }

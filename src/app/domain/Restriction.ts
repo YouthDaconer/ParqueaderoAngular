@@ -1,9 +1,9 @@
 export class Restriction {
 
     constructor(
-        public Id: string|undefined,
-        public DayOfWeek: number,
-        public Termination: number,
-        public VehicleTypeId: string
+        public id: string|undefined,
+        public dayOfWeek: number,
+        public termination: number,
+        public vehicleTypeId: string
     ) { }
 }

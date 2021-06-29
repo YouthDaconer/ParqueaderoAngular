@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CreateReserveCommand } from 'src/app/commands/CreateReserveCommand';
+import { VehicleType } from 'src/app/domain/VehicleType';
 import { DataSharingService } from 'src/service/data-sharing.service';
 import { ReserveService } from 'src/service/reserve.service';
 import { UtilService } from 'src/service/util.service';
@@ -20,6 +21,7 @@ export class ReserveCreateComponent implements OnInit {
   public formGroup: FormGroup;
   public post: any = '';
   public reserve: CreateReserveCommand = new CreateReserveCommand("", 0, "");
+  public vehicleTypeSelected: VehicleType = new VehicleType("", "", 0, 0, 0, 0, 0, 0);
 
   constructor(private formBuilder: FormBuilder,
     private vehicleTypeService: VehicleTypeService,
@@ -45,20 +47,20 @@ export class ReserveCreateComponent implements OnInit {
 
   createForm() {
     this.formGroup = this.formBuilder.group({
-      'LicensePlate': ['', [Validators.required,
+      'licensePlate': ['', [Validators.required,
       Validators.minLength(6),
       Validators.maxLength(6),
       Validators.pattern(this.licensePlatePattern)]],
-      'VehicleTypeId': ['', [Validators.required]],
-      'EngineDisplacement': ['', [Validators.pattern("^[0-9]*$")]]
+      'vehicleTypeId': ['', [Validators.required]],
+      'engineDisplacement': ['', [Validators.pattern("^[0-9]*$")]]
     });
   }
 
   loadFormData() {
     this.formGroup.reset({
-      LicensePlate: '',
-      EngineDisplacement: '',
-      VehicleTypeId: ''
+      licensePlate: '',
+      engineDisplacement: '',
+      vehicleTypeId: ''
     });
   };
 
@@ -67,47 +69,56 @@ export class ReserveCreateComponent implements OnInit {
   }
 
   getErrorLicensePlate() {
-    return this.formGroup.get('LicensePlate').hasError('required') ? 'La placa es requerida' :
-      this.formGroup.get('LicensePlate').hasError('minlength') ? 'Mínimo 6 caracteres' :
-        this.formGroup.get('LicensePlate').hasError('pattern') ? 'Escriba una placa válida Ej: ABC123' :
-          this.formGroup.get('LicensePlate').hasError('maxlength') ? 'Máximo 6 caracteres' : '';
+    return this.formGroup.get('licensePlate').hasError('required') ? 'La placa es requerida' :
+      this.formGroup.get('licensePlate').hasError('minlength') ? 'Mínimo 6 caracteres' :
+        this.formGroup.get('licensePlate').hasError('pattern') ? 'Escriba una placa válida Ej: ABC123' :
+          this.formGroup.get('licensePlate').hasError('maxlength') ? 'Máximo 6 caracteres' : '';
   }
 
   getErrorVehicleType() {
-    return this.formGroup.get('LicensePlate').hasError('required') ? 'El tipo de vehículo es requerido' : '';
+    return this.formGroup.get('licensePlate').hasError('required') ? 'El tipo de vehículo es requerido' : '';
   }
 
   getErrorEngineDisplacement() {
-    return this.formGroup.get('EngineDisplacement').hasError('pattern') ? 'Digite solo números' : '';
+    return this.formGroup.get('engineDisplacement').hasError('pattern') ? 'Digite solo números' :
+      this.vehicleTypeSelected.engineDisplacementFlagValue != null ? 'El valor del cilindraje es requerido' : '';
   }
 
   get licensePlateInvalid() {
     return (
-      this.formGroup.get('LicensePlate').invalid &&
-      this.formGroup.get('LicensePlate').touched
+      this.formGroup.get('licensePlate').invalid &&
+      this.formGroup.get('licensePlate').touched
     );
   }
 
   get vehicleTypeInvalid() {
-    if (this.formGroup.get('VehicleTypeId').value == '9b5b3e45-b28f-45a6-9403-d1133aa29846' &&
-      (!Boolean(this.formGroup.get('EngineDisplacement').value) ||
-        this.formGroup.get('EngineDisplacement').value == 0)) {
-
-      return (this.formGroup.get('EngineDisplacement').invalid &&
-        this.formGroup.get('EngineDisplacement').touched);
-    }
-
     return (
-      this.formGroup.get('VehicleTypeId').invalid &&
-      this.formGroup.get('VehicleTypeId').touched
+      this.formGroup.get('vehicleTypeId').invalid &&
+      this.formGroup.get('vehicleTypeId').touched
     );
   }
 
   get engineDisplacementInvalid() {
     return (
-      this.formGroup.get('EngineDisplacement').invalid &&
-      this.formGroup.get('EngineDisplacement').touched
+      this.formGroup.get('engineDisplacement').invalid &&
+      this.formGroup.get('engineDisplacement').touched
     );
+  }
+
+  engineDisplacementRequired() {
+    this.reserve.vehicleTypeId = this.vehicleTypeSelected.id;
+
+    let condition: boolean = this.vehicleTypeSelected.engineDisplacementFlagValue != null &&
+      (this.formGroup.get('engineDisplacement').value == '' ||
+        this.formGroup.get('engineDisplacement').value == 0);
+
+    if (condition) {
+      this.formGroup.controls['engineDisplacement'].setErrors({ 'incorrect': true });
+      this.formGroup.controls['engineDisplacement'].markAsTouched;
+    } else {
+      this.formGroup.controls['engineDisplacement'].setErrors(null);
+      this.formGroup.controls['engineDisplacement'].markAsTouched;
+    }
   }
 
   createReserve() {

@@ -1,18 +1,18 @@
 export class Reserve {
 
     constructor(
-        public Id: string|undefined,
-        public LicensePlate: string,
-        public EntryDate: string,
-        public DepartureDate: string,
-        public HourValue: number,
-        public DayValue: number,
-        public ReserveStatus: string,
-        public EngineDisplacement: number,
-        public EngineDisplacementCharge: number,
-        public EngineDisplacementFlagValue: number,
-        public BaseHoursPerDay: number,
-        public TotalValue: number,
-        public VehicleTypeId: string
+        public id: string|undefined,
+        public licensePlate: string,
+        public entryDate: string,
+        public departureDate: string,
+        public hourValue: number,
+        public dayValue: number,
+        public reserveStatus: string,
+        public engineDisplacement: number,
+        public engineDisplacementCharge: number,
+        public engineDisplacementFlagValue: number,
+        public baseHoursPerDay: number,
+        public totalValue: number,
+        public vehicleTypeId: string
     ) { }
 }
