@@ -1,0 +1,55 @@
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Reservas de parqueo</h1>
+<br />
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registrar reserva</h6>
+    </div>
+    <div class="card-body">
+        <form *ngIf="formGroup != null" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"
+            class="row g-3 needs-validation">
+            <div class="col-md-4">
+                <label for="LicensePlate" class="form-label">Placa <code>*</code></label>
+                <input type="text" class="form-control" #LicensePlate id="LicensePlate" name="LicensePlate"
+                    [(ngModel)]="reserve.LicensePlate" [class.is-invalid]="licensePlateInvalid"
+                    formControlName="LicensePlate" (ngModelChange)="reserve.LicensePlate = $event.toUpperCase()" maxlength="6">
+                <div class="text-left">
+                    <small *ngIf="licensePlateInvalid" class="text-danger">
+                        {{ getErrorLicensePlate() }}
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="LicensePlate" class="form-label">Tipo de vehículo <code>*</code></label>
+                <select class="form-select" id="VehicleTypeId" #VehicleTypeId name="VehicleTypeId"
+                    [(ngModel)]="reserve.VehicleTypeId" [class.is-invalid]="vehicleTypeInvalid"
+                    formControlName="VehicleTypeId">
+                    <option selected disabled value="">- Selecciona -</option>
+                    <option *ngFor="let vehicleType of vehicleTypes" [value]="vehicleType.id">
+                        {{ vehicleType.name }}
+                    </option>
+                </select>
+                <div class="text-left">
+                    <small *ngIf="vehicleTypeInvalid" class="text-danger">
+                        {{ getErrorVehicleType() }}
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="EngineDisplacement" class="form-label">Cilindraje del motor</label>
+                <input type="text" class="form-control" #EngineDisplacement id="EngineDisplacement"
+                    name="EngineDisplacement" [(ngModel)]="reserve.EngineDisplacement"
+                    [class.is-invalid]="engineDisplacementInvalid" formControlName="EngineDisplacement">
+                <div class="text-left">
+                    <small *ngIf="engineDisplacementInvalid" class="text-danger">
+                        {{ getErrorEngineDisplacement() }}
+                    </small>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit" (click)="createReserve()">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>

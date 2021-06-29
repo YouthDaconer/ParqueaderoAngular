@@ -27,9 +27,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
+              "src/styles.css",
+              "src/lib/vendor/fontawesome-free/css/all.min.css",
+              "src/lib/css/sb-admin-2.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "src/lib/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/lib/vendor/jquery-easing/jquery.easing.min.js",
+              "src/lib/js/sb-admin-2.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,9 +104,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/lib/vendor/fontawesome-free/css/all.min.css",
+              "src/lib/css/sb-admin-2.min.css",
+              "src/lib/vendor/datatables/dataTables.bootstrap4.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/lib/vendor/jquery/jquery.min.js",
+              "src/lib/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/lib/vendor/jquery-easing/jquery.easing.min.js",
+              "src/lib/js/sb-admin-2.min.js",
+              "src/lib/vendor/datatables/jquery.dataTables.min.js",
+              "src/lib/vendor/datatables/dataTables.bootstrap4.min.js"
+            ]
           }
         }
       }
