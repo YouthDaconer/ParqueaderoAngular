@@ -1,18 +1,18 @@
-export class Reserve {
+import { VehicleType } from "./VehicleType";
 
-    constructor(
-        public id: string|undefined,
-        public licensePlate: string,
-        public entryDate: string,
-        public departureDate: string,
-        public hourValue: number,
-        public dayValue: number,
-        public reserveStatus: string,
-        public engineDisplacement: number,
-        public engineDisplacementCharge: number,
-        public engineDisplacementFlagValue: number,
-        public baseHoursPerDay: number,
-        public totalValue: number,
-        public vehicleTypeId: string
-    ) { }
+export interface Reserve {
+    id: string | undefined,
+    licensePlate: string,
+    entryDate: string,
+    departureDate: string,
+    hourValue: number,
+    dayValue: number,
+    reserveStatus: string,
+    engineDisplacement: number,
+    engineDisplacementCharge: number,
+    engineDisplacementFlagValue: number,
+    baseHoursPerDay: number,
+    totalValue: number,
+    vehicleTypeId: string,
+    vehicleType: VehicleType
 }

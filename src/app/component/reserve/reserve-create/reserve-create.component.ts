@@ -21,7 +21,7 @@ export class ReserveCreateComponent implements OnInit {
   public formGroup: FormGroup;
   public post: any = '';
   public reserve: CreateReserveCommand = new CreateReserveCommand("", 0, "");
-  public vehicleTypeSelected: VehicleType = new VehicleType("", "", 0, 0, 0, 0, 0, 0);
+  public vehicleTypeSelected: VehicleType;
 
   constructor(private formBuilder: FormBuilder,
     private vehicleTypeService: VehicleTypeService,

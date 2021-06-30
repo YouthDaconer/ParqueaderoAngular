@@ -11,8 +11,9 @@ import { VehicleTypeEditComponent } from './component/vehicle-type/vehicle-type-
 import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve-query.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { DataTablesModule } from 'angular-datatables';
 import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdSortableHeader } from './directives/sortable.directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CommonModule } from '@angular/common';
     VehicleTypeCreateComponent,
     VehicleTypeListComponent,
     VehicleTypeEditComponent,
-    ReserveQueryComponent
+    ReserveQueryComponent,
+    NgbdSortableHeader
   ],
   imports: [
     AppRoutingModule,
@@ -30,9 +32,10 @@ import { CommonModule } from '@angular/common';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule,
-    CommonModule
+    CommonModule,
+    NgbModule
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent]
 })

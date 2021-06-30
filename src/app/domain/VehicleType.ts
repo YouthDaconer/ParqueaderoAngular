@@ -1,13 +1,13 @@
-export class VehicleType {
+import { Restriction } from "./Restriction";
 
-    constructor(
-        public id: string|undefined,
-        public name: string,
-        public hourValue: number,
-        public dayValue: number,
-        public baseHoursPerDay: number,
-        public engineDisplacementCharge: number,
-        public engineDisplacementFlagValue: number,
-        public numPlaces: number
-    ) { }
+export interface VehicleType {
+    id: string | undefined,
+    name: string,
+    hourValue: number,
+    dayValue: number,
+    baseHoursPerDay: number,
+    engineDisplacementCharge: number,
+    engineDisplacementFlagValue: number,
+    numPlaces: number,
+    restrictions: Restriction[]
 }

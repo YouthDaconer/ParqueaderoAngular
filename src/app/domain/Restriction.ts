@@ -1,9 +1,6 @@
-export class Restriction {
-
-    constructor(
-        public id: string|undefined,
-        public dayOfWeek: number,
-        public termination: number,
-        public vehicleTypeId: string
-    ) { }
+export interface Restriction {
+    id: string | undefined,
+    dayOfWeek: number,
+    termination: number,
+    vehicleTypeId: string
 }

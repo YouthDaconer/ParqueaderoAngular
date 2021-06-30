@@ -9,6 +9,15 @@ export class UtilService {
   constructor() { }
 
   errorHandler(error: any): void {
+    if (typeof (error.errors) != "undefined") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en la solicitud',
+        text: "Algunos campos tienen errores, verifica la información ingresada."
+      });
+      return;
+    }
+
     switch (error.status) {
       case 400:
         Swal.fire({
