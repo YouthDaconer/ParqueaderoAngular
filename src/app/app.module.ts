@@ -8,12 +8,13 @@ import { ReserveListComponent } from './component/reserve/reserve-list/reserve-l
 import { VehicleTypeCreateComponent } from './component/vehicle-type/vehicle-type-create/vehicle-type-create.component';
 import { VehicleTypeListComponent } from './component/vehicle-type/vehicle-type-list/vehicle-type-list.component';
 import { VehicleTypeEditComponent } from './component/vehicle-type/vehicle-type-edit/vehicle-type-edit.component';
-import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve-query.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdSortableHeader } from './directives/sortable.directive';
+import { NgbdSortableHeaderReserve } from './directives/sortable-reserve.directive';
+import { PrincipalComponent } from './principal/principal.component';
+import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve-query.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { NgbdSortableHeader } from './directives/sortable.directive';
     VehicleTypeCreateComponent,
     VehicleTypeListComponent,
     VehicleTypeEditComponent,
-    ReserveQueryComponent,
-    NgbdSortableHeader
+    NgbdSortableHeaderReserve,
+    PrincipalComponent,
+    ReserveQueryComponent
   ],
   imports: [
     AppRoutingModule,

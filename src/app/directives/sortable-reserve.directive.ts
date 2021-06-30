@@ -1,12 +1,14 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { Reserve } from 'src/app/domain/Reserve';
-import { Restriction } from '../domain/Restriction';
-import { SortEvent } from '../domain/SortEvent';
-import { VehicleType } from '../domain/VehicleType';
 
-export type SortColumn = '';
-export type SortDirection = 'asc' | 'desc' | '';
-const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': '', '': 'asc' };
+export type SortColumnReserve = keyof Reserve | '';
+export type SortDirectionReserve = 'asc' | 'desc' | '';
+const rotate: { [key: string]: SortDirectionReserve } = { 'asc': 'desc', 'desc': '', '': 'asc' };
+
+export interface SortEventReserve {
+  column: SortColumnReserve;
+  direction: SortDirectionReserve;
+}
 
 @Directive({
   selector: 'th[sortable]',
@@ -16,7 +18,7 @@ const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': '', ''
     '(click)': 'rotate()'
   }
 })
-export class NgbdSortableHeader {
+export class NgbdSortableHeaderReserve {
   @HostListener('keydown', ['$event.target'])
   onKeyDown(e) {
     console.log(e);
@@ -25,9 +27,9 @@ export class NgbdSortableHeader {
     }
   }
 
-  @Input() sortable: SortColumn = '';
-  @Input() direction: SortDirection = '';
-  @Output() sort = new EventEmitter<SortEvent>();
+  @Input() sortable: SortColumnReserve = '';
+  @Input() direction: SortDirectionReserve = '';
+  @Output() sort = new EventEmitter<SortEventReserve>();
 
   rotate() {
     this.direction = rotate[this.direction];

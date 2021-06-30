@@ -73,7 +73,7 @@ export class AppComponent {
       this.checkBalanceCommand = new CheckBalanceCommand(this.licensePlate);
 
       this.reserveService.CheckBalanceAsync(this.checkBalanceCommand).subscribe(data => {
-        this.router.navigate(["/reserve-query", this.licensePlate])
+        this.router.navigate(["/reserve-query", data.id])
           .then(() => {
             window.location.reload();
           });

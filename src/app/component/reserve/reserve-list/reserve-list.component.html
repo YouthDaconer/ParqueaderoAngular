@@ -6,7 +6,9 @@
     <div class="card-body">
         <form>
             <div class="form-group form-inline">
-                Digita la placa: <input class="form-control ml-2" type="text" [formControl]="filter" />
+                Buscar: <input class="form-control ml-2" type="text" name="searchTerm"
+                    [(ngModel)]="reserveTableService.searchTerm" [formControl]="filter" />
+                <span class="ml-3" *ngIf="reserveTableService.loading$ | async">Cargando...</span>
             </div>
         </form>
         <br />
@@ -15,51 +17,62 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Placa</th>
-                        <th scope="col">Tipo de vehículo</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Fecha de entrada</th>
-                        <th scope="col">Fecha de salida</th>
-                        <th scope="col">Total</th>
+                        <th scope="col" sortable="licensePlate" (sort)="onSort($event)">Placa</th>
+                        <th scope="col" sortable="vehicleType" (sort)="onSort($event)">Tipo de vehículo</th>
+                        <th scope="col" sortable="reserveStatus" (sort)="onSort($event)">Estado</th>
+                        <th scope="col" sortable="entryDate" (sort)="onSort($event)">Fecha de entrada</th>
+                        <th scope="col" sortable="departureDate" (sort)="onSort($event)">Fecha de salida</th>
+                        <th scope="col" sortable="totalValue" (sort)="onSort($event)">Total</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let reserve of reserves$ | async; index as i">
                         <th scope="row">{{ i + 1 }}</th>
                         <td>
-                            <ngb-highlight [result]="reserve.licensePlate" [term]="filter.value"></ngb-highlight>
+                            <ngb-highlight [result]="reserve.licensePlate" [term]="reserveTableService.searchTerm">
+                            </ngb-highlight>
                         </td>
                         <td>
-                            <ngb-highlight [result]="reserve.vehicleType.name" [term]="filter.value"></ngb-highlight>
+                            <ngb-highlight [result]="reserve.vehicleType.name" [term]="reserveTableService.searchTerm">
+                            </ngb-highlight>
                         </td>
                         <td>
                             <ngb-highlight [result]="reserve.reserveStatus == 'Active' ? 'Activa' : 'Pagada'"
-                                [term]="filter.value"></ngb-highlight>
+                                [term]="reserveTableService.searchTerm"></ngb-highlight>
                         </td>
                         <td>
-                            <ngb-highlight [result]="reserve.entryDate | date:'medium'" [term]="filter.value">
+                            <ngb-highlight [result]="reserve.entryDate | date:'medium'"
+                                [term]="reserveTableService.searchTerm">
                             </ngb-highlight>
                         </td>
                         <td>
                             <ngb-highlight *ngIf="reserve.reserveStatus == 'Paid'"
-                                [result]="reserve.departureDate | date:'medium'" [term]="filter.value"></ngb-highlight>
+                                [result]="reserve.departureDate | date:'medium'"
+                                [term]="reserveTableService.searchTerm"></ngb-highlight>
                             <p *ngIf="reserve.reserveStatus == 'Active'"><em>Sin registro</em></p>
                         </td>
                         <td>
                             <ngb-highlight *ngIf="reserve.reserveStatus == 'Paid'"
-                                [result]="reserve.totalValue | currency" [term]="filter.value"></ngb-highlight>
+                                [result]="reserve.totalValue | currency" [term]="reserveTableService.searchTerm">
+                            </ngb-highlight>
                             <p *ngIf="reserve.reserveStatus == 'Active'"><em>Sin registro</em></p>
+                        </td>
+                        <td>
+                            <a (click)="showReserve(reserve.id)" class="btn btn-primary btn-circle">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="d-flex justify-content-between p-2">
-                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
-                    (pageChange)="refreshReserves()">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="reserveTableService.page"
+                    [pageSize]="reserveTableService.pageSize">
                 </ngb-pagination>
 
-                <select class="custom-select" style="width: auto" [(ngModel)]="pageSize"
-                    (ngModelChange)="refreshReserves()">
+                <select class="custom-select" style="width: auto" name="pageSize"
+                    [(ngModel)]="reserveTableService.pageSize">
                     <option [ngValue]="2">2 por página</option>
                     <option [ngValue]="4">4 por página</option>
                     <option [ngValue]="6">6 por página</option>

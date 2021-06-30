@@ -7,10 +7,14 @@ import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve
 import { VehicleTypeCreateComponent } from './component/vehicle-type/vehicle-type-create/vehicle-type-create.component';
 import { VehicleTypeEditComponent } from './component/vehicle-type/vehicle-type-edit/vehicle-type-edit.component';
 import { VehicleTypeListComponent } from './component/vehicle-type/vehicle-type-list/vehicle-type-list.component';
+import { PrincipalComponent } from './principal/principal.component';
 
 const ROUTES: Routes = [
   {
     path: 'main', component: AppComponent
+  },
+  {
+    path: 'principal', component: PrincipalComponent
   },
   {
     path: 'reserve-list', component: ReserveListComponent
@@ -19,7 +23,7 @@ const ROUTES: Routes = [
     path: 'reserve-create', component: ReserveCreateComponent
   },
   {
-    path: 'reserve-query/:licensePlate', component: ReserveQueryComponent
+    path: 'reserve-query/:id', component: ReserveQueryComponent
   },
   {
     path: 'vehicle-type-list', component: VehicleTypeListComponent

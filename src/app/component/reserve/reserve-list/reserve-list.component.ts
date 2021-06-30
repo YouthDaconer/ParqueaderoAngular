@@ -1,11 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform, ViewChildren, QueryList } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/Operators';
-import { NgbdSortableHeader } from 'src/app/directives/sortable.directive';
+import { NgbdSortableHeaderReserve, SortEventReserve } from 'src/app/directives/sortable-reserve.directive';
 import { Reserve } from 'src/app/domain/Reserve';
-import { SortEvent } from 'src/app/domain/SortEvent';
 import { ReserveTableService } from 'src/service/reserve-table.service';
 import { ReserveService } from 'src/service/reserve.service';
 import { UtilService } from 'src/service/util.service';
@@ -27,24 +27,21 @@ export class ReserveListComponent implements OnInit {
   pageSize = 4;
   collectionSize = 1;
 
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  @ViewChildren(NgbdSortableHeaderReserve) headers: QueryList<NgbdSortableHeaderReserve>;
 
   constructor(private pipe: DecimalPipe,
     private reserveService: ReserveService,
+    private router: Router,
     public reserveTableService: ReserveTableService,
     private utilService: UtilService) {
-    if (this.reservesRaw.length > 0) {
-      this.populationData();
-    }
-    /*this.reserves$ = reserveTableService.reserves$;
-    this.total$ = reserveTableService.total$;*/
+    this.reserves$ = reserveTableService.reserves$;
+    this.total$ = reserveTableService.total$;
   }
 
-  async ngOnInit() {
-    await this.refreshReserves();
+  ngOnInit() {
   }
 
-  onSort({ column, direction }: SortEvent) {
+  onSort({ column, direction }: SortEventReserve) {
     // resetting other headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {
@@ -56,27 +53,8 @@ export class ReserveListComponent implements OnInit {
     this.reserveTableService.sortDirection = direction;
   }
 
-  async refreshReserves() {
-    this.reserveService.GetAll().subscribe(data => {
-      if (data.length > 0) {
-        this.reservesRaw = data;
-        this.populationData();
-      }
-    }, error => {
-      this.utilService.errorHandler(error);
-    });
-  }
-
-  populationData() {
-    if (this.reservesRaw.length > 0) {
-      this.collectionSize = this.reservesRaw.length;
-      this.reserves$ = this.filter.valueChanges.pipe(
-        startWith(''),
-        map(text => search(text, this.pipe,
-          this.reservesRaw.map((reserve, i) => ({ id: i + 1, ...reserve }))
-            .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize)))
-      );
-    }
+  showReserve(reserveId: string): void {
+    this.router.navigate(["/reserve-query", reserveId]);
   }
 
 }
