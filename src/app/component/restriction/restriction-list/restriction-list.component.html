@@ -1,0 +1,59 @@
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Reservas</h6>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group form-inline">
+                Buscar: <input class="form-control ml-2" type="text" name="searchTerm"
+                    [(ngModel)]="restrictionTableService.searchTerm" [formControl]="filter" />
+                <span class="ml-3" *ngIf="restrictionTableService.loading$ | async">Cargando...</span>
+            </div>
+        </form>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" sortable="dayOfWeek" (sort)="onSort($event)">Día</th>
+                        <th scope="col" sortable="termination" (sort)="onSort($event)">Terminación</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let restriction of restrictions$ | async; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>
+                            <ngb-highlight [result]="days[restriction.dayOfWeek - 1]" [term]="restrictionTableService.searchTerm">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="restriction.termination | number"
+                                [term]="restrictionTableService.searchTerm">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <a (click)="confirmDeleteRestriction(restriction.id)" class="btn btn-danger btn-circle">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="restrictionTableService.page"
+                    [pageSize]="restrictionTableService.pageSize">
+                </ngb-pagination>
+
+                <select class="custom-select" style="width: auto" name="pageSize"
+                    [(ngModel)]="restrictionTableService.pageSize">
+                    <option [ngValue]="2">2 por página</option>
+                    <option [ngValue]="4">4 por página</option>
+                    <option [ngValue]="6">6 por página</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

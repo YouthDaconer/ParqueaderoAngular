@@ -1,0 +1,49 @@
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Restricciones de pico y placa</h1>
+<br />
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registrar restricción</h6>
+    </div>
+    <div class="card-body">
+        <form *ngIf="formGroup != null" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"
+            class="needs-validation">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="dayOfWeek" class="form-label">Día <code>*</code></label>
+                    <select class="form-select" id="dayOfWeek" #dayOfWeek name="dayOfWeek"
+                        [(ngModel)]="dayOfWeekSelected" [class.is-invalid]="dayOfWeekInvalid"
+                        formControlName="dayOfWeek">
+                        <option selected disabled value="">- Selecciona -</option>
+                        <option *ngFor="let day of days; let i = index" [ngValue]="i + 1" [attr.data-index]="i">
+                            {{ day }}
+                        </option>
+                    </select>
+                    <div class="text-left">
+                        <small *ngIf="dayOfWeekInvalid" class="text-danger">
+                            {{ getErrorDayOfWeek() }}
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="termination" class="form-label">Terminación de la placa <code>*</code></label>
+                    <input type="number" class="form-control" #termination id="termination" name="termination"
+                        [(ngModel)]="restriction.termination" [class.is-invalid]="terminationInvalid" maxlength="1"
+                        minlength="1" formControlName="termination">
+                    <div class="text-left">
+                        <small *ngIf="terminationInvalid" class="text-danger">
+                            {{ getErrorTermination() }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" type="submit" (click)="createRestriction()">Registrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
