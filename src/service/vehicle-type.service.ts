@@ -26,12 +26,12 @@ export class VehicleTypeService {
     );
   }
 
-  public CreateVehicleType(vehicleType: VehicleType): Observable<any> {
-    return this.httpClient.post(this.urlVehicleTypeService, vehicleType);
+  public CreateVehicleType(jsonParams: any): Observable<any> {
+    return this.httpClient.post(this.urlVehicleTypeService, jsonParams);
   }
 
-  public UpdateVehicleType(vehicleType: VehicleType): Observable<any> {
-    return this.httpClient.put(this.urlVehicleTypeService, vehicleType);
+  public UpdateVehicleType(jsonParams: any): Observable<any> {
+    return this.httpClient.put(this.urlVehicleTypeService, jsonParams);
   }
 
 }

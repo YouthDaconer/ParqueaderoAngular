@@ -1,19 +1,18 @@
 import { Injectable, PipeTransform } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
-import { Restriction } from 'src/app/domain/Restriction';
-import { debounceTime, delay, switchMap, tap } from 'rxjs/Operators';
-import { RestrictionService } from './restriction.service';
-import { UtilService } from './util.service';
 import { VehicleType } from 'src/app/domain/VehicleType';
+import { debounceTime, delay, switchMap, tap } from 'rxjs/Operators';
+import { UtilService } from './util.service';
 import { SortColumn, SortDirection } from 'src/app/directives/sortable.directive';
+import { VehicleTypeService } from './vehicle-type.service';
 
 interface SearchResult {
-    restrictions: Restriction[];
+    vehicleTypes: VehicleType[];
     total: number;
 }
 
-export interface StateRestriction {
+export interface StateVehicleType {
     page: number;
     pageSize: number;
     searchTerm: string;
@@ -23,31 +22,32 @@ export interface StateRestriction {
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(restrictions: Restriction[], column: SortColumn, direction: string): Restriction[] {
+function sort(vehicleTypes: VehicleType[], column: SortColumn, direction: string): VehicleType[] {
     if (direction === '' || column === '') {
-        return restrictions;
+        return vehicleTypes;
     } else {
-        return [...restrictions].sort((a, b) => {
+        return [...vehicleTypes].sort((a, b) => {
             const res = compare(a[column], b[column]);
             return direction === 'asc' ? res : -res;
         });
     }
 }
 
-function matches(restriction: Restriction, term: string, pipe: PipeTransform) {
-    let days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
-    return days[restriction.dayOfWeek - 1].toLowerCase().includes(term) ||
-        pipe.transform(restriction.termination).includes(term);
+function matches(vehicleType: VehicleType, term: string, pipe: PipeTransform) {
+    return vehicleType.name.toLowerCase().includes(term) ||
+        pipe.transform(vehicleType.numPlaces).includes(term) ||
+        pipe.transform(vehicleType.hourValue).includes(term) ||
+        pipe.transform(vehicleType.dayValue).includes(term);
 }
 
 @Injectable({ providedIn: 'root' })
-export class RestrictionTableService {
+export class VehicleTypeTableService {
     private _loading$ = new BehaviorSubject<boolean>(true);
     private _search$ = new Subject<void>();
-    private _restrictions$ = new BehaviorSubject<Restriction[]>([]);
+    private _vehicleTypes$ = new BehaviorSubject<VehicleType[]>([]);
     private _total$ = new BehaviorSubject<number>(0);
 
-    private _state: StateRestriction = {
+    private _state: StateVehicleType = {
         page: 1,
         pageSize: 4,
         searchTerm: '',
@@ -56,13 +56,13 @@ export class RestrictionTableService {
     };
 
     constructor(private pipe: DecimalPipe,
-        private restrictionService: RestrictionService,
+        private vehicleTypeService: VehicleTypeService,
         private utilService: UtilService) {
-        this.getRestrictions();
+            this.getVehicleTypes();
     }
 
-    getRestrictions(): void {
-        this.restrictionService.GetAll().subscribe(data => {
+    getVehicleTypes(): void {
+        this.vehicleTypeService.GetAll().subscribe(data => {
             if (data.length > 0) {
                 this._search$.pipe(
                     tap(() => this._loading$.next(true)),
@@ -71,7 +71,7 @@ export class RestrictionTableService {
                     delay(200),
                     tap(() => this._loading$.next(false))
                 ).subscribe(result => {
-                    this._restrictions$.next(result.restrictions);
+                    this._vehicleTypes$.next(result.vehicleTypes);
                     this._total$.next(result.total);
                 });
 
@@ -82,7 +82,7 @@ export class RestrictionTableService {
         });
     }
 
-    get restrictions$() { return this._restrictions$.asObservable(); }
+    get vehicleTypes$() { return this._vehicleTypes$.asObservable(); }
     get total$() { return this._total$.asObservable(); }
     get loading$() { return this._loading$.asObservable(); }
     get page() { return this._state.page; }
@@ -97,23 +97,23 @@ export class RestrictionTableService {
     set sortColumn(sortColumn: SortColumn) { this._set({ sortColumn }); }
     set sortDirection(sortDirection: SortDirection) { this._set({ sortDirection }); }
 
-    private _set(patch: Partial<StateRestriction>) {
+    private _set(patch: Partial<StateVehicleType>) {
         Object.assign(this._state, patch);
         this._search$.next();
     }
 
-    private _search(restrictionsGet: any): Observable<SearchResult> {
+    private _search(vehicleTypesGet: any): Observable<SearchResult> {
         const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
         // 1. sort
-        let restrictions = sort(restrictionsGet, sortColumn, sortDirection);
+        let vehicleTypes = sort(vehicleTypesGet, sortColumn, sortDirection);
 
         // 2. filter
-        restrictions = restrictions.filter(restriction => matches(restriction, searchTerm, this.pipe));
-        const total = restrictions.length;
+        vehicleTypes = vehicleTypes.filter(vehicleType => matches(vehicleType, searchTerm, this.pipe));
+        const total = vehicleTypes.length;
 
         // 3. paginate
-        restrictions = restrictions.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-        return of({ restrictions, total });
+        vehicleTypes = vehicleTypes.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+        return of({ vehicleTypes, total });
     }
 }

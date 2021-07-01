@@ -1,1 +1,76 @@
-<p>vehicle-type-list works!</p>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tipos de vehículo</h6>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group form-inline">
+                Buscar: <input class="form-control ml-2" type="text" name="searchTerm"
+                    [(ngModel)]="vehicleTypeTableService.searchTerm" [formControl]="filter" />
+                <span class="ml-3" *ngIf="vehicleTypeTableService.loading$ | async">Cargando...</span>
+            </div>
+        </form>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" sortable="name" (sort)="onSort($event)">Nombre</th>
+                        <th scope="col" sortable="numPlaces" (sort)="onSort($event)">Número de plazas</th>
+                        <th scope="col" sortable="hourValue" (sort)="onSort($event)">Valor x hora</th>
+                        <th scope="col" sortable="dayValue" (sort)="onSort($event)">Valor x día</th>
+                        <th scope="col" sortable="engineDisplacementFlagValue" (sort)="onSort($event)">¿Recargo por
+                            cilindraje?</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let vehicleType of vehicleTypes$ | async; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>
+                            <ngb-highlight [result]="vehicleType.name" [term]="vehicleTypeTableService.searchTerm">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="vehicleType.numPlaces | number"
+                                [term]="vehicleTypeTableService.searchTerm">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="vehicleType.hourValue | currency"
+                                [term]="vehicleTypeTableService.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="vehicleType.dayValue | currency"
+                                [term]="vehicleTypeTableService.searchTerm">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="vehicleType.engineDisplacementFlagValue > 0 ? 'Sí' : 'No'"
+                                [term]="vehicleTypeTableService.searchTerm"></ngb-highlight>
+                        </td>
+                        <td>
+                            <a (click)="showVehicleType(vehicleType.id)" class="btn btn-primary btn-circle">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="vehicleTypeTableService.page"
+                    [pageSize]="vehicleTypeTableService.pageSize">
+                </ngb-pagination>
+
+                <select class="custom-select" style="width: auto" name="pageSize"
+                    [(ngModel)]="vehicleTypeTableService.pageSize">
+                    <option [ngValue]="2">2 por página</option>
+                    <option [ngValue]="4">4 por página</option>
+                    <option [ngValue]="6">6 por página</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

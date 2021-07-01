@@ -1,1 +1,137 @@
-<p>vehicle-type-edit works!</p>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Tipos de vehículo</h1>
+<br />
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Información del tipo de vehículo</h6>
+    </div>
+    <div class="card-body">
+        <form *ngIf="formGroup != null" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"
+            class="needs-validation">
+            <fieldset [disabled]="formDisable">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="name" class="form-label">Nombre <code>*</code></label>
+                        <input type="text" class="form-control" #name id="name" name="name"
+                            [(ngModel)]="vehicleType.name" [class.is-invalid]="nameInvalid" formControlName="name"
+                            maxlength="30">
+                        <div class="text-left">
+                            <small *ngIf="nameInvalid" class="text-danger">
+                                {{ getErrorName() }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="hourValue" class="form-label">Valor por hora <code>*</code></label>
+                        <input type="number" class="form-control" #hourValue id="hourValue" name="hourValue"
+                            [(ngModel)]="vehicleType.hourValue" [class.is-invalid]="hourValueInvalid"
+                            formControlName="hourValue">
+                        <div class="text-left">
+                            <small *ngIf="hourValueInvalid" class="text-danger">
+                                {{ getErrorHourValue() }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dayValue" class="form-label">Valor por día <code>*</code></label>
+                        <input type="number" class="form-control" #dayValue id="dayValue" name="dayValue"
+                            [(ngModel)]="vehicleType.dayValue" [class.is-invalid]="dayValueInvalid"
+                            formControlName="dayValue">
+                        <div class="text-left">
+                            <small *ngIf="dayValueInvalid" class="text-danger">
+                                {{ getErrorDayValue() }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="baseHoursPerDay" class="form-label">Horas base para calcular valor del día
+                            <code>*</code></label>
+                        <input type="number" class="form-control" #baseHoursPerDay id="baseHoursPerDay"
+                            name="baseHoursPerDay" [(ngModel)]="vehicleType.baseHoursPerDay"
+                            [class.is-invalid]="baseHoursPerDayInvalid" formControlName="baseHoursPerDay">
+                        <div class="text-left">
+                            <small *ngIf="baseHoursPerDayInvalid" class="text-danger">
+                                {{ getErrorBaseHoursPerDay() }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="numPlaces" class="form-label">Número de plazas
+                            <code>*</code></label>
+                        <input type="number" class="form-control" #numPlaces id="numPlaces" name="numPlaces"
+                            [(ngModel)]="vehicleType.numPlaces" [class.is-invalid]="numPlacesInvalid"
+                            formControlName="numPlaces">
+                        <div class="text-left">
+                            <small *ngIf="numPlacesInvalid" class="text-danger">
+                                {{ getErrorNumPlaces() }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="engineDisplacementCharge" class="form-label">Cargo por cilindraje <code
+                                *ngIf="vehicleType.engineDisplacementCharge > 0">*</code></label>
+                        <input type="number" class="form-control" #engineDisplacementCharge
+                            id="engineDisplacementCharge" name="engineDisplacementCharge"
+                            [(ngModel)]="vehicleType.engineDisplacementCharge"
+                            [class.is-invalid]="engineDisplacementChargeInvalid"
+                            formControlName="engineDisplacementCharge">
+                        <div class="text-left">
+                            <small *ngIf="engineDisplacementChargeInvalid" class="text-danger">
+                                {{ getErrorEngineDisplacementCharge() }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row" *ngIf="vehicleType.engineDisplacementCharge > 0">
+                    <div class="col-md-4">
+                        <label for="engineDisplacementFlagValue" class="form-label">Cilindraje base para cargo por
+                            cilindraje (cc) <code>*</code></label>
+                        <input type="number" class="form-control" #engineDisplacementFlagValue
+                            id="engineDisplacementFlagValue" name="engineDisplacementFlagValue"
+                            [(ngModel)]="vehicleType.engineDisplacementFlagValue"
+                            [class.is-invalid]="engineDisplacementFlagValueInvalid"
+                            formControlName="engineDisplacementFlagValue">
+                        <div class="text-left">
+                            <small *ngIf="engineDisplacementFlagValueInvalid" class="text-danger">
+                                {{ getErrorEngineDisplacementFlagValue() }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <br />
+            <br />
+            <div class="btn-toolbar" role="toolbar">
+                <div *ngIf="!formDisable" class="btn-group mr-3" role="group">
+                    <button type="button" class="btn btn-success btn-icon-split" (click)="updateVehicleType()">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span class="text">Guardar</span>
+                    </button>
+                </div>
+                <div *ngIf="formDisable" class="btn-group mr-2" role="group">
+                    <button type="button" class="btn btn-warning btn-icon-split" (click)="editForm()">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-pencil-alt"></i>
+                        </span>
+                        <span class="text">Editar</span>
+                    </button>
+                </div>
+                <div class="btn-group mr-2" role="group">
+                    <a routerLink="/vehicle-type-list" class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span class="text">Ir al listado</span>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -68,8 +68,7 @@ export class RestrictionListComponent implements OnInit {
 
         this.restrictionService.DeleteRestriction(deleteRestrictionCommand).subscribe(data => {
           Swal.fire('Restricción eliminada', '', 'success');
-          //this.router.navigate([this.router.url]);
-          this.restrictionTableService.test();
+          this.restrictionTableService.getRestrictions();
         }, error => {
           this.router.navigate(['/principal']);
           this.utilService.errorHandler(error);
@@ -78,15 +77,4 @@ export class RestrictionListComponent implements OnInit {
     });
   }
 
-}
-
-function search(text: string, pipe: PipeTransform, restrictions: any): Restriction[] {
-
-  return restrictions.filter(restriction => {
-    const term = text.toLowerCase();
-    return restriction.licensePlate.toLowerCase().includes(term) ||
-      restriction.vehicleType.name.toLowerCase().includes(term) ||
-      restriction.restrictionStatus.toLowerCase().includes(term) ||
-      pipe.transform(restriction.totalValue).includes(term);
-  });
 }
