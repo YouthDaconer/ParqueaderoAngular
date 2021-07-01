@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-4">
                 <label for="engineDisplacement" class="form-label">Cilindraje del motor</label>
-                <input type="text" class="form-control" #engineDisplacement id="engineDisplacement"
+                <input type="number" class="form-control" #engineDisplacement id="engineDisplacement"
                     name="engineDisplacement" [(ngModel)]="reserve.engineDisplacement"
                     [class.is-invalid]="engineDisplacementInvalid" formControlName="engineDisplacement">
                 <div class="text-left">

@@ -1,4 +1,4 @@
-export class PayReserveCommand {
+export class DeleteRestrictionCommand {
     constructor(
         public id: string | null
     ) { }

@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/Operators';
-import { NgbdSortableHeaderReserve, SortEventReserve } from 'src/app/directives/sortable-reserve.directive';
+import { NgbdSortableHeader, SortEvent } from 'src/app/directives/sortable.directive';
 import { Reserve } from 'src/app/domain/Reserve';
 import { ReserveTableService } from 'src/service/reserve-table.service';
 import { ReserveService } from 'src/service/reserve.service';
@@ -27,7 +27,7 @@ export class ReserveListComponent implements OnInit {
   pageSize = 4;
   collectionSize = 1;
 
-  @ViewChildren(NgbdSortableHeaderReserve) headers: QueryList<NgbdSortableHeaderReserve>;
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   constructor(private pipe: DecimalPipe,
     private reserveService: ReserveService,
@@ -41,7 +41,7 @@ export class ReserveListComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSort({ column, direction }: SortEventReserve) {
+  onSort({ column, direction }: SortEvent) {
     // resetting other headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {

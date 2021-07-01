@@ -12,9 +12,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdSortableHeaderReserve } from './directives/sortable-reserve.directive';
+import { NgbdSortableHeader } from './directives/sortable.directive';
 import { PrincipalComponent } from './principal/principal.component';
 import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve-query.component';
+import { RestrictionListComponent } from './component/restriction/restriction-list/restriction-list.component';
+import { RestrictionCreateComponent } from './component/restriction/restriction-create/restriction-create.component';
 
 @NgModule({
   declarations: [
@@ -24,9 +26,11 @@ import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve
     VehicleTypeCreateComponent,
     VehicleTypeListComponent,
     VehicleTypeEditComponent,
-    NgbdSortableHeaderReserve,
+    NgbdSortableHeader,
     PrincipalComponent,
-    ReserveQueryComponent
+    ReserveQueryComponent,
+    RestrictionListComponent,
+    RestrictionCreateComponent
   ],
   imports: [
     AppRoutingModule,
