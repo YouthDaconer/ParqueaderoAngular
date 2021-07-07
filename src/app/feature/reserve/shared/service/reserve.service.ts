@@ -30,7 +30,7 @@ export class ReserveService {
   }
 
   public CheckBalanceAsync(jsonParams: CheckBalanceCommand): Observable<any> {
-    return this.http.doPost<CheckBalanceCommand, Reserve>(this.urlReserveService, jsonParams);
+    return this.http.doPost<CheckBalanceCommand, Reserve>(this.urlReserveService + "CheckBalance", jsonParams);
   }
 
   public PayReserve(jsonParams: PayReserveCommand): Observable<any> {
