@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ReserveService } from 'src/service/reserve.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { CheckBalanceCommand } from './commands/CheckBalanceCommand';
-import { UtilService } from 'src/service/util.service';
-import { DataSharingService } from 'src/service/data-sharing.service';
+import { UtilService } from 'src/app/shared/service/util.service';
+import { ReserveService } from './feature/reserve/shared/service/reserve.service';
+import { DataSharingService } from './shared/service/data-sharing.service';
+import { CheckBalanceCommand } from './feature/reserve/shared/command/CheckBalanceCommand';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,7 @@ export class AppComponent {
   public formGroup: FormGroup;
   public post: any = '';
   public loading: boolean = false;
+  public sideBarClassFlag: boolean = true;
   public checkBalanceCommand: CheckBalanceCommand;
 
   constructor(private modal: NgbModal,
@@ -82,6 +83,5 @@ export class AppComponent {
       });
     }
   }
-
 
 }

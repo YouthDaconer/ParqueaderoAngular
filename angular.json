@@ -38,7 +38,7 @@
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "src/lib/vendor/bootstrap/js/bootstrap.bundle.min.js",
               "src/lib/vendor/jquery-easing/jquery.easing.min.js",
-              "src/lib/js/sb-admin-2.min.js"
+              "src/lib/js/sb-admin-2.js"
             ]
           },
           "configurations": {

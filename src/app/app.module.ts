@@ -1,48 +1,33 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { CookieService } from 'ngx-cookie-service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReserveCreateComponent } from './component/reserve/reserve-create/reserve-create.component';
-import { ReserveListComponent } from './component/reserve/reserve-list/reserve-list.component';
-import { VehicleTypeCreateComponent } from './component/vehicle-type/vehicle-type-create/vehicle-type-create.component';
-import { VehicleTypeListComponent } from './component/vehicle-type/vehicle-type-list/vehicle-type-list.component';
-import { VehicleTypeEditComponent } from './component/vehicle-type/vehicle-type-edit/vehicle-type-edit.component';
+import { HomeComponent } from './feature/home/home.component';
+import { CoreModule } from './core/core.module';
+import { ReserveModule } from './feature/reserve/reserve.module';
+import { VehicleTypeModule } from './feature/vehicle-type/vehicle-type.module';
+import { RestrictionModule } from './feature/restriction/restriction.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdSortableHeader } from './directives/sortable.directive';
-import { PrincipalComponent } from './principal/principal.component';
-import { ReserveQueryComponent } from './component/reserve/reserve-query/reserve-query.component';
-import { RestrictionListComponent } from './component/restriction/restriction-list/restriction-list.component';
-import { RestrictionCreateComponent } from './component/restriction/restriction-create/restriction-create.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ReserveCreateComponent,
-    ReserveListComponent,
-    VehicleTypeCreateComponent,
-    VehicleTypeListComponent,
-    VehicleTypeEditComponent,
-    NgbdSortableHeader,
-    PrincipalComponent,
-    ReserveQueryComponent,
-    RestrictionListComponent,
-    RestrictionCreateComponent
+    HomeComponent
   ],
   imports: [
     AppRoutingModule,
-    HttpClientModule,
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    NgbModule
+    CoreModule,
+    VehicleTypeModule,
+    ReserveModule,
+    RestrictionModule,
+    ReactiveFormsModule, 
+    FormsModule
   ],
   exports: [],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [CookieService],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
